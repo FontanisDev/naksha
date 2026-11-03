@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Naksha">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1b2030"/>
+      <stop offset="1" stop-color="#0e1118"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffe07a"/>
+      <stop offset="1" stop-color="#e0b11f"/>
+    </linearGradient>
+  </defs>
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="url(#bg)" stroke="#3a4157" stroke-width="1.5"/>
+  <g stroke="#3a4157" stroke-width="1.2" fill="none">
+    <path d="M10 44 L54 40 M18 54 L22 12 M44 56 L48 10"/>
+  </g>
+  <path d="M32 10c-8 0-14 6-14 13.5C18 34 32 50 32 50s14-16 14-26.5C46 16 40 10 32 10z" fill="url(#gold)"/>
+  <circle cx="32" cy="23" r="5.5" fill="#0e1118"/>
+  <g stroke="#ffe07a" stroke-width="1.8" stroke-linecap="round" fill="#ffe07a">
+    <path d="M32 50 L16 53 M32 50 L50 54" fill="none" opacity=".7"/>
+    <circle cx="16" cy="53" r="2.6"/>
+    <circle cx="50" cy="54" r="2.6"/>
+  </g>
+</svg>

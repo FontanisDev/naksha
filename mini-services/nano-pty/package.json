@@ -1,0 +1,18 @@
+{
+  "name": "naksha-nano-pty",
+  "version": "1.0.0",
+  "description": "Naksha — real nano over a PTY bridge (one WebSocket = one nano session, jailed inside the connected vault). RUNTIME: node (probed honestly — bun + node-pty SIGHUPs interactive children; see index.ts header).",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch index.ts",
+    "start": "node index.ts"
+  },
+  "dependencies": {
+    "node-pty": "1.1.0",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@types/ws": "^8.5.13"
+  }
+}

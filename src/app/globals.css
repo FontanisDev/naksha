@@ -1,0 +1,1318 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  /* Task 114 — the scaffold pointed these at --font-geist-sans/mono,
+   * which this project NEVER registers (layout loads --font-inter via
+   * next/font and --font-jetbrains-mono via next/font/local). The
+   * undefined vars made every .font-mono/.font-sans utility silently
+   * fall back to the inherited body font: the terminal input, the ~ ❯
+   * prompt, and the history CONTAINER have been rendering Inter since
+   * Task 95 — the receipts only looked mono because the per-line rules
+   * read --naksha-font-mono directly. Wire the utilities to the fonts
+   * the project actually ships. */
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  /* Naksha design tokens — exposed as Tailwind colors */
+  --color-naksha-bg: var(--naksha-bg);
+  --color-naksha-bg-2: var(--naksha-bg-2);
+  --color-naksha-glass: var(--naksha-glass);
+  --color-naksha-glass-2: var(--naksha-glass-2);
+  --color-naksha-border: var(--naksha-border);
+  --color-naksha-border-2: var(--naksha-border-2);
+  --color-naksha-text: var(--naksha-text);
+  --color-naksha-text-2: var(--naksha-text-2);
+  --color-naksha-text-3: var(--naksha-text-3);
+  --color-naksha-text-4: var(--naksha-text-4);
+  --color-naksha-gold: var(--naksha-gold);
+  --color-naksha-gold-light: var(--naksha-gold-light);
+  --color-naksha-cream: var(--naksha-cream);
+  --color-naksha-warm: var(--naksha-warm);
+  --color-naksha-success: var(--naksha-success);
+  --color-naksha-error: var(--naksha-error);
+  --color-naksha-info: var(--naksha-info);
+  --color-naksha-warning: var(--naksha-warning);
+  --color-naksha-net-1: var(--naksha-net-1);
+  --color-naksha-net-2: var(--naksha-net-2);
+  --color-naksha-net-3: var(--naksha-net-3);
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   NAKSHA — Design System
+   Warm dark with gold & cream accents (eye-friendly in dark rooms).
+   Glassmorphism panels floating over a calm dot-grid background.
+   ══════════════════════════════════════════════════════════════════ */
+
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+
+  /* ─── Naksha warm-glass tokens ─── */
+  /* Background — v138 T3 metallic re-tone: gunmetal dark, not pure black
+   * and no longer warm brown (polished-steel graphite, easier on eyes in
+   * dark rooms, lets the gold read as GOLD instead of ochre-on-brown).
+   * These :root values ARE amber-night's — keep pixel parity with
+   * themes.ts (Task 113 contract). */
+  --naksha-bg: #0e1013;
+  --naksha-bg-2: #15181c;
+  --naksha-bg-3: #1c2026;
+
+  /* Glass surfaces — translucent gunmetal panels */
+  --naksha-glass: rgba(28, 32, 38, 0.72);
+  --naksha-glass-2: rgba(36, 41, 48, 0.6);
+  --naksha-glass-strong: rgba(14, 16, 19, 0.92);
+
+  /* Modal scrim base color — overlays mix it to their own alpha
+   * (color-mix(in srgb, var(--naksha-scrim) 70%, transparent) ≈ the old
+   * frozen rgba(26,22,17,0.7)), so a theme can retune the dim without
+   * every panel editing its own literal. */
+  --naksha-scrim: rgb(14, 16, 19);
+
+  /* Inner-card wash base — the amber-night glass rgb at low alpha.
+   * Same story as the scrim token: panels mix it to their own alpha
+   * instead of freezing rgba(42,37,30,…) literals that go wrong the
+   * moment a theme retunes the paper. */
+  --naksha-wash: rgb(28, 32, 38);
+
+  /* Borders — gold-tinted, very subtle (v138 T3: shiny-gold hairlines) */
+  --naksha-border: rgba(255, 215, 0, 0.14);
+  --naksha-border-2: rgba(255, 215, 0, 0.28);
+  --naksha-border-3: rgba(255, 215, 0, 0.5);
+
+  /* Text — platinum/silver hierarchy (the precious-metal pairing) */
+  --naksha-text: #e7eaf0;
+  --naksha-text-2: #9aa3b2;
+  --naksha-text-3: #5d6673;
+  --naksha-text-4: #3e4650;
+
+  /* Accents — shiny gold & platinum (positive energy) */
+  --naksha-gold: #ffd700;
+  --naksha-gold-light: #ffe55c;
+  --naksha-gold-dim: #8f7514;
+  --naksha-cream: #eef1f7;
+  --naksha-warm: #d2bc82;
+
+  /* Semantic — jewel tones on gunmetal (v138 T3) */
+  --naksha-success: #3ecf8e;
+  --naksha-error: #e5484d;
+  --naksha-info: #6fa8dc;
+  --naksha-warning: #ffd700;
+  /* Task 91 — the accent purple now has readers (see themes.ts); the
+     default mirrors amber-night's heritage hue #9a8ce1. */
+  --naksha-purple: #9a8ce1;
+
+  /* 3-Network colors (orchid / rose / aqua) */
+  --naksha-net-1: #b78cff;
+  --naksha-net-2: #ff9bb5;
+  --naksha-net-3: #7fe7d6;
+
+  /* Dot-grid background — metallic slate stars, GOLD pointer bloom
+   * (v138 T3: the retired sky-blue #63b3ed was the last non-gold accent
+   * on the amber-night paper). */
+  --naksha-dot-color: #4e5a68;
+  --naksha-dot-hover: #ffd700;
+
+  /* Shadows */
+  --naksha-shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --naksha-shadow-elevated: 0 12px 48px rgba(0, 0, 0, 0.55);
+  --naksha-shadow-glow-gold: 0 0 12px rgba(255, 215, 0, 0.35);
+
+  /* Typography */
+  --naksha-font-mono: var(--font-jetbrains-mono), 'JetBrains Mono', 'Geist Mono', 'Consolas', 'Monaco', monospace;
+  --naksha-font-ui: var(--font-inter), 'Inter', 'Geist Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Type scale — four steps for ALL panel chrome (the old ad-hoc 8–18px
+   * sprawl collapsed onto this ladder). Terminal/editor keep their own
+   * metrics; reader headings keep their prose rhythm. */
+  --naksha-fs-xs: 11px;   /* chips · meta · timestamps (legibility floor) */
+  --naksha-fs-sm: 12px;   /* secondary labels · inputs */
+  --naksha-fs-md: 13.5px; /* body · item rows */
+  --naksha-fs-lg: 15px;   /* panel titles */
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    background: var(--naksha-bg);
+    color: var(--naksha-text);
+    font-family: var(--naksha-font-ui);
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   NAKSHA — Utility classes
+   ══════════════════════════════════════════════════════════════════ */
+
+/* The root app fills viewport, no scroll on body — panes scroll internally */
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  /* Phase 8 — direction is OWNED by <html dir> (lib/naksha/direction.ts
+   * writes it): the old hard `direction: ltr` here silently defeated the
+   * root attribute, so the chrome could never mirror. Removing it changes
+   * nothing in LTR (html defaults to ltr) and lets RTL actually apply. */
+  position: relative;
+  /* ─── Calm static scene (themeable) ───
+     UI-calm pass: the former 5-layer composition plus TWO infinite
+     opacity loops ("breath" 12s, "sky" 28s) made the whole page
+     perpetually move — the opposite of calm, and a constant paint cost.
+     The scene is now one quiet vertical gradient plus a single fixed
+     horizon glow, fully static, all colors still theme tokens. */
+  background:
+    radial-gradient(ellipse 150% 42% at 50% 112%, var(--breath-1), transparent 58%),
+    linear-gradient(180deg, var(--bg-gradient-top) 0%, var(--naksha-bg) 42%, var(--naksha-bg-2) 78%, var(--bg-gradient-bottom) 100%);
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   CPU-ONLY PERFORMANCE MODE
+   Set `data-perf="low"` on <html> to disable all continuous animations
+   and eliminate backdrop-filter cost. The UI remains fully functional
+   but drops visual luxuries that cause frame drops on integrated
+   graphics / CPU-only rendering.
+
+   NOTE (Task 31): these rules are DUPLICATED with !important strength in
+   src/components/naksha/PerfStyles.tsx — a component-scoped <style> that
+   rides the JS module graph. Rationale recorded when the dev CSS chunk
+   appeared frozen (stale .next cache); the fresh pipeline serves
+   globals.css edits, so this copy is authoritative again. The PerfStyles
+   copy remains as a harmless belt-and-braces enforcer.
+   ══════════════════════════════════════════════════════════════════ */
+/* The breathing layers were removed entirely (UI-calm pass) — nothing
+   left to pause on the low tier. */
+/* Zero-blur glass: an opaque page-bg stack under the glass tint gives the
+   same warm surface at zero filter cost — blur(6px) was still the largest
+   constant per-repaint cost on CPU-only machines. */
+html[data-perf="low"] .naksha-glass {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background:
+    linear-gradient(180deg, rgba(245, 234, 208, 0.035) 0%, transparent 6%, transparent 100%),
+    linear-gradient(var(--naksha-glass), var(--naksha-glass)),
+    var(--naksha-bg) !important;
+}
+html[data-perf="low"] .naksha-glass-strong {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background:
+    linear-gradient(180deg, rgba(245, 234, 208, 0.05) 0%, transparent 8%, transparent 100%),
+    linear-gradient(var(--naksha-glass-strong), var(--naksha-glass-strong)),
+    var(--naksha-bg) !important;
+}
+html[data-perf="low"] .term-line {
+  animation: none !important;
+  opacity: 1;
+}
+html[data-perf="low"] .naksha-mini-btn {
+  transition: none;
+}
+html[data-perf="low"] .naksha-status-btn {
+  transition: none;
+}
+/* Task 108 — the scrim family (perf/stats/theme/shortcuts panels)
+   carries an inline `animation: fadeIn 0.15s ease`; a stylesheet
+   !important beats non-important inline style, so the low tier can
+   kill it without touching the components. The reader aside's
+   opacity transition rides the same kill list — on CPU-only
+   machines a 200ms full-panel paint transition is pure cost on a
+   surface that opens/closes as often as the reader does. */
+html[data-perf="low"] .naksha-scrim {
+  animation: none !important;
+}
+html[data-perf="low"] aside[aria-label="Reader panel"] {
+  transition: none !important;
+}
+/* Modal dialogs inject their own blur(20px) with !important — these
+   higher-specificity rules win over that and cap the cost while the
+   palette / quick-jump are open (their repaint happens on every
+   keystroke, which is exactly when CPU-only machines feel it). */
+html[data-perf="low"] [data-slot="dialog-content"] {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background: var(--naksha-bg-2) !important;
+}
+html[data-perf="low"] [data-slot="dialog-overlay"] {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+/* Task 99 — the last blurs standing. Five surfaces wore their
+   backdrop-filter INLINE on bare divs, where the class-targeted kill
+   list above can't reach them: the shortcuts/stats/theme/perf scrims
+   (blur(8px) while open) and — worst — the status bar footer, whose
+   blur(10px) is PERMANENT, filtering a full-width strip on every map
+   pan. `naksha-scrim` hooks the four transient scrims;
+   `naksha-statusbar` hooks the footer, which trades its frost for a
+   denser scrim so text-3 stays legible over a moving map. HIGH tier
+   unchanged. (.care-tooltip already has a class — it joins here
+   without a TSX edit.)
+   ⚠ Task 32's hazard, met again: declaring the -webkit alias beside
+   the standard form made Lightning CSS merge-then-drop BOTH
+   declarations when the block equaled the dialog-overlay rule's
+   (the served rule came out EMPTY). Standard property only — it's
+   what modern Chromium serves and applies; the alias was inert. */
+html[data-perf="low"] .naksha-scrim,
+html[data-perf="low"] .naksha-statusbar,
+html[data-perf="low"] .care-tooltip {
+  backdrop-filter: none !important;
+}
+html[data-perf="low"] .naksha-statusbar {
+  /* UI-calm fix: was a hardcoded amber-night dark scrim — wrong on every
+   * other theme. glass-strong is the theme's own dense (0.92-alpha)
+   * surface: same legibility intent, correct on all 9 themes. */
+  background: var(--naksha-glass-strong) !important;
+}
+/* Task 110 — the graph view's three one-shot entry animations join
+   the kill list (the scrim family's discipline, Task 108): the fix
+   toast, the fix picker's input (its animation is INLINE in the TSX
+   — the !important stylesheet beat is how the list reaches inline
+   styles without touching the component), and the palette pop.
+   160ms each, once per open — nothing at high tier changes; at low
+   tier even one-shot paints are pure cost on a surface that may
+   open during a drag. */
+html[data-perf="low"] .naksha-fix-toast,
+html[data-perf="low"] .naksha-fix-picker,
+html[data-perf="low"] .naksha-fix-palette-pop {
+  animation: none !important;
+}
+/* Universal Tailwind-blur kill (Task 36): `backdrop-blur*` utilities on
+   map-mounted surfaces (layer switcher, info chips) and NanoEditor still
+   filtered every pixel behind them on each pan/zoom. The substring
+   catch-all covers every current and future Tailwind blur class. */
+html[data-perf="low"] [class*="backdrop-blur"] {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   STABLE_60 PERFORMANCE MODE (Phase 1)
+   `data-perf="stable60"` — the balanced tier between LOW and HIGH.
+   Intent: a LOCKED 60 FPS during interaction. It shares LOW's
+   zero-backdrop-filter economics (blur is the largest constant
+   per-repaint cost and cannot coexist with a 60fps promise on CPU
+   rendering), kills the 12s/28s body ambience loops (continuous cost),
+   but KEEPS one-shot entrances/transitions and FULL-rate canvas loops —
+   the 20/30fps caps that made LOW feel laggy do NOT apply here. Frame
+   pacing is enforced by src/lib/naksha/frame-scheduler.ts with live
+   diagnostics surfaced in PerfPanel + PerfHud.
+   NOTE: like the low-tier block above, this copy is documentation for
+   production builds; the dev enforcer lives in PerfStyles.tsx
+   (the served globals.css chunk is frozen — see Task 31 note).
+   ══════════════════════════════════════════════════════════════════ */
+html[data-perf="stable60"] body::before,
+html[data-perf="stable60"] body::after {
+  animation: none !important;
+  will-change: auto !important;
+}
+html[data-perf="stable60"] .naksha-glass {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background:
+    linear-gradient(180deg, rgba(245, 234, 208, 0.035) 0%, transparent 6%, transparent 100%),
+    linear-gradient(var(--naksha-glass), var(--naksha-glass)),
+    var(--naksha-bg) !important;
+}
+html[data-perf="stable60"] .naksha-glass-strong {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background:
+    linear-gradient(180deg, rgba(245, 234, 208, 0.05) 0%, transparent 8%, transparent 100%),
+    linear-gradient(var(--naksha-glass-strong), var(--naksha-glass-strong)),
+    var(--naksha-bg) !important;
+}
+html[data-perf="stable60"] [data-slot="dialog-content"] {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background: var(--naksha-bg-2) !important;
+}
+html[data-perf="stable60"] [data-slot="dialog-overlay"] {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+html[data-perf="stable60"] .naksha-scrim,
+html[data-perf="stable60"] .naksha-statusbar,
+html[data-perf="stable60"] .care-tooltip {
+  backdrop-filter: none !important;
+}
+html[data-perf="stable60"] .naksha-statusbar {
+  /* Same theme-aware fix as the low tier (was amber-night-only dark). */
+  background: var(--naksha-glass-strong) !important;
+}
+html[data-perf="stable60"] [class*="backdrop-blur"] {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Map crosshair breathing pulse — REMOVED (Task 24 made the crosshair
+   minimal/static; the keyframes were dead weight). */
+
+@media (prefers-reduced-motion: reduce) {
+  body::before,
+  body::after {
+    animation: none;
+    opacity: 0.8;
+  }
+}
+
+/* Glassmorphism surface — optimized for CPU-only devices.
+   Reduced blur radius (was 20px/28px) for smooth frame rates.
+   The blur is still strong enough to read as "frosted glass"
+   but won't drop frames on integrated graphics. */
+.naksha-glass {
+  position: relative;
+  /* Task T1 (v138) — the dot-grid star field lives BEHIND the panes now.
+   * The glass tint rides color-mix so the theme token stays authoritative
+   * while the effective alpha drops (0.72 → ≈0.52) — enough for the stars
+   * to read through the pane as soft glows, crisp in the gutters. The
+   * catch-light gradient is untouched. */
+  background:
+    linear-gradient(180deg, rgba(245, 234, 208, 0.035) 0%, transparent 6%, transparent 100%),
+    color-mix(in srgb, var(--naksha-glass) 72%, transparent);
+  /* Prefixed form FIRST so CSS minifiers that merge the alias keep the
+     standard property (Task 32: the frozen dev chunk lost the standard
+     line and modern Chromium no longer aliases -webkit-backdrop-filter,
+     which silently zeroed the blur). Task T1: blur 12px → 6px — a 1.5px
+     dot smeared by 12px of frost is invisible; at 6px it survives as a
+     soft glow (and the constant backdrop cost halves — the blur was the
+     largest per-repaint cost on the high tier). */
+  -webkit-backdrop-filter: blur(6px) saturate(130%);
+  backdrop-filter: blur(6px) saturate(130%);
+  border: 1px solid var(--naksha-border);
+  box-shadow:
+    inset 0 1px 0 rgba(245, 234, 208, 0.08),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.25),
+    0 0 0 1px color-mix(in srgb, var(--naksha-gold) 4.5%, transparent),  /* faint warm rim — reads as brass edging */
+    var(--naksha-shadow-glass);
+}
+
+/* Small overlay controls (graph view, workspace buttons, map layer pills).
+   One shared class → consistent hover/focus behaviour + keyboard focus ring.
+   Typography: Task 115 — sentence-case like every other chrome surface
+   (the old uppercase+0.8px tracking was a pre-calm leftover that survived
+   the TSX sweeps because it hid in the CSS pipeline; labels are authored
+   sentence-case in source and now render as written). */
+.naksha-mini-btn {
+  font-family: var(--naksha-font-mono);
+  color: var(--naksha-text-3);
+  background: color-mix(in srgb, var(--naksha-glass-strong) 72%, transparent);
+  border: 1px solid var(--naksha-border);
+  border-radius: 5px;
+  cursor: pointer;
+  font-variant-numeric: tabular-nums;
+  transition: color 0.12s ease, border-color 0.12s ease, background 0.12s ease;
+}
+.naksha-mini-btn:hover {
+  color: var(--naksha-gold-light);
+  border-color: var(--naksha-gold-dim);
+  background: color-mix(in srgb, var(--naksha-gold) 8%, transparent);
+}
+.naksha-mini-btn:focus-visible {
+  outline: 1px solid var(--naksha-gold);
+  outline-offset: 1px;
+}
+.naksha-mini-btn[data-active='true'] {
+  color: var(--naksha-gold-light);
+  border-color: var(--naksha-gold);
+  background: color-mix(in srgb, var(--naksha-gold) 15%, transparent);
+}
+
+/* Task 89 — status-bar buttons: the ledger strip's clickable chips.
+   Structure only — each chip keeps its own color semantics (PERF's
+   tier color, the hist door's gold). The hover is a quiet gold wash:
+   PERF has been clickable since Task 35 with NO hover signal — a
+   clickable chip that reads as dead text. The wash works on both
+   themes and never fights the chip's state color. */
+.naksha-status-btn {
+  background: transparent;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: background 0.12s ease;
+}
+.naksha-status-btn:hover {
+  background: color-mix(in srgb, var(--naksha-gold) 8%, transparent);
+}
+/* The hist door lifts its whole hierarchy on hover/focus: glyph →
+   gold, label → gold-light, depth badge → text-3. Rest state keeps
+   Task 88's look exactly (gold-dim / text-2 / text-4). */
+.naksha-status-btn.naksha-status-hist {
+  color: var(--naksha-gold-dim);
+}
+.naksha-status-btn.naksha-status-hist .naksha-status-sub {
+  color: var(--naksha-text-2);
+}
+.naksha-status-btn.naksha-status-hist .naksha-status-dim {
+  color: var(--naksha-text-4);
+}
+.naksha-status-btn.naksha-status-hist:hover,
+.naksha-status-btn.naksha-status-hist:focus-visible {
+  color: var(--naksha-gold);
+}
+.naksha-status-btn.naksha-status-hist:hover .naksha-status-sub,
+.naksha-status-btn.naksha-status-hist:focus-visible .naksha-status-sub {
+  color: var(--naksha-gold-light);
+}
+.naksha-status-btn.naksha-status-hist:hover .naksha-status-dim,
+.naksha-status-btn.naksha-status-hist:focus-visible .naksha-status-dim {
+  color: var(--naksha-text-3);
+}
+
+/* Task 90/91 — the loc chip wears the accent purple (the thought-
+   markers' hue), so its wash is purple: the base gold hover would fight
+   the glyph's hue. Task 91: the color rides var(--naksha-purple) — the
+   themed accent — instead of a frozen literal, so light themes finally
+   get a readable violet (their tuned #7a5a9c / #7c3aed replace the
+   dark-tuned fallback that washed out at ~2.3:1). Hover is WASH-ONLY
+   (the PERF chip's contract): a color-lift endpoint would need a second
+   themed purple, and the amber-tuned literal brighten washed out on
+   light paper. Rest pixels on the default theme are unchanged. */
+.naksha-status-btn.naksha-status-loc {
+  color: var(--naksha-purple);
+}
+.naksha-status-btn.naksha-status-loc:hover,
+.naksha-status-btn.naksha-status-loc:focus-visible {
+  background: color-mix(in srgb, var(--naksha-purple) 10%, transparent);
+}
+
+/* Task 90 — the recall door: rest state is the dead-text look LINES had
+   (label inherits the footer's text-3, count text-2 — .naksha-status-sub
+   is reused); hover lifts label → gold and count → gold-light. Quieter
+   than the hist door's full three-step lift — a smaller chip, a smaller
+   tone; the shared gold wash signals affordance, the lift says door. */
+.naksha-status-btn.naksha-status-cmd .naksha-status-sub {
+  color: var(--naksha-text-2);
+}
+.naksha-status-btn.naksha-status-cmd:hover,
+.naksha-status-btn.naksha-status-cmd:focus-visible {
+  color: var(--naksha-gold);
+}
+.naksha-status-btn.naksha-status-cmd:hover .naksha-status-sub,
+.naksha-status-btn.naksha-status-cmd:focus-visible .naksha-status-sub {
+  color: var(--naksha-gold-light);
+}
+
+/* Task 77 — the find box earns a focus state: a gold hairline glow +
+   gold caret while typing (inline styles own border/outline, so the
+   glow rides box-shadow — no specificity war, no !important). The one
+   place the graph says "keyboard lives here" without a word. */
+.naksha-graph-find:focus {
+  box-shadow: 0 0 0 1px var(--naksha-gold-dim), 0 0 8px color-mix(in srgb, var(--naksha-gold) 14%, transparent);
+  caret-color: var(--naksha-gold);
+}
+
+/* Task 78 — the fix verb's transient surfaces. One entrance animation
+   shared by toast + picker (160ms, transform+opacity only — compositing
+   is cheap, the CPU rule holds). The toast wears the gold active skin:
+   two-class specificity beats .naksha-mini-btn without !important. */
+@keyframes nakshaToastIn {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.naksha-mini-btn.naksha-fix-toast {
+  color: var(--naksha-gold-light);
+  border-color: var(--naksha-gold);
+  background: color-mix(in srgb, var(--naksha-gold) 15%, transparent);
+  animation: nakshaToastIn 160ms ease-out;
+}
+
+/* Task 79 — the fix picker's <details> pick list: the QA-able click
+   door to the same choices the datalist suggests (the native popup is
+   browser chrome; <details> is plain DOM a driver can walk). Skinned
+   entirely in theme vars so every theme inherits it honestly. */
+
+/* Task 83 — the pre-filled picker's selection wears the dominant's
+   tint (the input sets --naksha-sel inline; gold while the field is
+   empty). Kills the browser-default blue inside a themed surface.
+   Paint-only — no continuous cost, the CPU rule holds. */
+.naksha-fix-picker::selection {
+  background: var(--naksha-sel, rgba(255, 215, 0, 0.28));
+}
+
+.naksha-fix-palette-details {
+  position: relative;
+}
+.naksha-fix-palette-details > summary {
+  display: inline-flex;
+  align-items: center;
+  list-style: none;
+  padding: 3px 8px;
+  font-size: 8px;
+}
+.naksha-fix-palette-details > summary::-webkit-details-marker {
+  display: none;
+}
+.naksha-fix-palette-details[open] > summary {
+  color: var(--naksha-gold-light);
+  border-color: var(--naksha-gold);
+}
+.naksha-fix-palette-pop {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: 30;
+  min-width: 132px;
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: var(--naksha-bg-3);
+  border: 1px solid var(--naksha-gold-dim);
+  border-radius: 4px;
+  box-shadow: var(--naksha-shadow-elevated);
+  animation: nakshaToastIn 160ms ease-out;
+}
+.naksha-fix-palette-opt {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 6px;
+  font-family: var(--naksha-font-mono);
+  font-size: 9px;
+  letter-spacing: 0.5px;
+  color: var(--naksha-text-3);
+  background: transparent;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  text-align: left;
+  transition: color 0.12s ease, background 0.12s ease;
+}
+.naksha-fix-palette-opt:hover {
+  color: var(--naksha-text);
+  background: color-mix(in srgb, var(--naksha-gold) 12%, transparent);
+}
+.naksha-fix-palette-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25) inset;
+}
+.naksha-fix-palette-count {
+  color: var(--naksha-text-4);
+  font-variant-numeric: tabular-nums;
+}
+/* Task 80 — the DOMINANT row (most-worn color in this graph) wears a
+   gold frame: the graph's own habit made visible, one glance answers
+   "what would this network most likely want". */
+.naksha-fix-palette-opt[data-dominant] {
+  color: var(--naksha-text);
+  background: color-mix(in srgb, var(--naksha-gold) 7%, transparent);
+  box-shadow: inset 0 0 0 1px var(--naksha-gold-dim);
+}
+.naksha-fix-palette-opt[data-dominant]:hover {
+  background: color-mix(in srgb, var(--naksha-gold) 15%, transparent);
+}
+
+.naksha-glass-strong {
+  position: relative;
+  background:
+    linear-gradient(180deg, rgba(245, 234, 208, 0.05) 0%, transparent 8%, transparent 100%),
+    var(--naksha-glass-strong);
+  -webkit-backdrop-filter: blur(16px) saturate(130%);
+  backdrop-filter: blur(16px) saturate(130%);
+  border: 1px solid var(--naksha-border-2);
+  box-shadow:
+    inset 0 1px 0 rgba(245, 234, 208, 0.1),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.3),
+    var(--naksha-shadow-elevated);
+}
+
+/* Task 34 cascade fix — these classes are UNLAYERED, so their
+   `position: relative` beats Tailwind's @layer utilities `.absolute` /
+   `.fixed` (unlayered styles always win the cascade). Elements combining
+   a glass class with a position utility (the Reader panel) were forced
+   in-flow — the hidden panel kept a flex slot and squashed the map.
+   Higher-specificity pair selectors restore the utility's position.
+   (Live copy in PerfStyles.tsx — the dev environment CSS pipeline is frozen.) */
+.absolute.naksha-glass,
+.absolute.naksha-glass-strong {
+  position: absolute;
+}
+.fixed.naksha-glass,
+.fixed.naksha-glass-strong {
+  position: fixed;
+}
+.sticky.naksha-glass,
+.sticky.naksha-glass-strong {
+  position: sticky;
+}
+
+/* Task 31 styling details — DUPLICATED in components/naksha/DetailStyles.tsx
+   (component-scoped <style> rides the JS module graph; this dev environment's
+   Turbopack CSS pipeline is frozen, see the perf-mode note above).
+   1. Glass catch-light: 1px gradient line across the top edge — light
+      settling on the frame. Static, animation-free, perf-low safe. */
+.naksha-glass::before,
+.naksha-glass-strong::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 6%;
+  right: 6%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(245, 234, 208, 0.16) 30%,
+    rgba(245, 234, 208, 0.22) 50%,
+    rgba(245, 234, 208, 0.16) 70%,
+    transparent
+  );
+  pointer-events: none;
+  border-radius: 1px;
+}
+/* 2. Terminal row hover — reading aid while scanning output. */
+.naksha-term-history .term-line:hover {
+  background: rgba(245, 234, 208, 0.035);
+}
+/* 3. Tabular numerals — [NN] ledger gutter, timestamps and columnar
+   output align in exact digit columns. */
+.term-line {
+  font-variant-numeric: tabular-nums;
+}
+/* 4. Section-header rule — fading gold hairline under header lines
+   (Settings / whereis / help categories): a ruled-ledger look. Static
+   paint, zero cost, perf-low safe. */
+.naksha-term-history .term-line.header {
+  position: relative;
+  padding-bottom: 5px;
+}
+.naksha-term-history .term-line.header::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 18%;
+  bottom: 1px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--naksha-gold) 40%, transparent),
+    color-mix(in srgb, var(--naksha-gold) 12%, transparent) 60%,
+    transparent
+  );
+  pointer-events: none;
+}
+/* 5. Themed text selection — one rule for the whole app (Task 84
+   removed the dead duplicate that used to sit here with a different
+   alpha: two competing globals, the later one always won). The
+   canonical gold selection lives in the "Text selection + caret glow"
+   section below; the fix picker overrides it per-dominant-color. */
+/* 6. Keyboard-only focus ring — :focus-visible draws only when navigating
+   by keyboard; mouse clicks stay visually clean. */
+.naksha-mini-btn:focus-visible,
+.naksha-perf-chip:focus-visible,
+.naksha-status-btn:focus-visible,
+#naksha-terminal-input:focus-visible {
+  outline: 1px solid color-mix(in srgb, var(--naksha-gold) 65%, transparent);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* Terminal line styles — refined typography for eye comfort.
+   - 13px base, 1.7 line-height for relaxed reading.
+   - Success/error/info are quiet semantic colors (no glow).
+   - Headers get a gold gradient (top-edge catch-light feel). */
+.term-line {
+  margin-bottom: 2px;
+  padding: 1px 4px;
+  border-radius: 3px;
+  color: var(--naksha-text);
+  word-break: break-word;
+  white-space: pre-wrap;
+  font-family: var(--naksha-font-mono);
+  font-size: 13px;
+  line-height: 1.7;
+  font-variant-ligatures: none;  /* monospace stays aligned */
+  font-feature-settings: 'liga' 0;
+  transition: background 0.1s ease;
+}
+.term-line:hover {
+  background: color-mix(in srgb, var(--naksha-gold) 4%, transparent);
+}
+
+/* Task 42 — click-to-fly rows (.term-fly). Lines that carry a fly payload
+   (today: `near` rows) are live map links: the hover state joins the gold =
+   navigation-intent family (card's ⇥ Go, place-mode ghost). Static paint,
+   no new transitions (inherits .term-line's existing background ease),
+   perf-low safe. The inset rule echoes .term-line.cmd's ledger gutter but
+   in the gold family at nav-alpha. */
+.term-fly {
+  cursor: pointer;
+}
+.naksha-term-history .term-line.term-fly:hover {
+  background: color-mix(in srgb, var(--naksha-gold) 8%, transparent);
+  box-shadow: inset 2px 0 0 color-mix(in srgb, var(--naksha-gold) 45%, transparent);
+}
+.term-fly:hover {
+  color: var(--naksha-gold-light, #e6b264);
+}
+.naksha-term-history .term-line.term-fly:focus-visible {
+  outline: 1px solid color-mix(in srgb, var(--naksha-gold) 65%, transparent);
+  outline-offset: 1px;
+}
+
+/* Task 43 — arrival pulse. When a click-to-fly row lands, the marker
+   nearest the destination pulses twice (expanding gold ring via
+   box-shadow — no extra DOM, no layout). Driven by MapEngine's
+   flyAndPulse (moveend-timed); perf-low skips it entirely (the
+   engine never adds the class, this rule is belt-and-suspenders). */
+@keyframes nakshaMarkerPulse {
+  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--naksha-gold) 55%, transparent); }
+  100% { box-shadow: 0 0 0 14px color-mix(in srgb, var(--naksha-gold) 0%, transparent); }
+}
+.naksha-marker-pulse {
+  animation: nakshaMarkerPulse 0.9s ease-out 2;
+  border-radius: 50%;
+}
+html[data-perf="low"] .naksha-marker-pulse {
+  animation: none !important;
+}
+
+/* Task 34 CPU-only perf — content-visibility on terminal lines (LIVE copy
+   in TerminalPane.tsx TerminalStyles; dev pipeline frozen). Skips
+   layout+paint for offscreen lines: long outputs cost like short ones. */
+.naksha-term-history {
+  contain: layout style;
+}
+.naksha-term-history .term-line {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 19px;
+}
+
+/* termLineIn keyframes removed (UI-calm pass): a 0.12s entrance on EVERY
+   line of a 500-row buffer was constant motion while scrolling; new rows
+   now simply appear. */
+
+.term-line.cmd {
+  color: var(--naksha-text);
+  font-weight: 500;
+  /* Inset gold rule on echoed commands — a quiet ledger line that makes
+     command history scannable without any layout shift (box-shadow, not
+     border, so the text grid stays aligned with output lines). */
+  box-shadow: inset 2px 0 0 color-mix(in srgb, var(--naksha-gold) 40%, transparent);
+}
+
+/* Ledger line numbers for echoed commands — a [01]-style gutter driven by
+   CSS counters (zero JS, zero re-render cost). The number lives in ::before
+   at low-alpha gold so output lines remain the visual baseline. Task 30:
+   command history reads like a numbered session log. */
+.naksha-term-history { counter-reset: naksha-cmd; }
+.term-line.cmd { counter-increment: naksha-cmd; }
+.term-line.cmd::before {
+  content: counter(naksha-cmd, decimal-leading-zero);
+  display: inline-block;
+  min-width: 24px;
+  margin-right: 2px;
+  color: color-mix(in srgb, var(--naksha-gold) 40%, transparent);
+  font-weight: 400;
+  font-size: 10px;
+  vertical-align: 1px;
+  letter-spacing: 0.5px;
+}
+.term-line.cmd .prompt {
+  color: var(--naksha-gold);
+  margin-inline-end: 8px;
+  font-weight: 700;
+}
+.term-line.output { color: var(--naksha-text-2); }
+.term-line.success { color: var(--naksha-success); }
+.term-line.error { color: var(--naksha-error); }
+.term-line.info { color: var(--naksha-info); }
+.term-line.warning { color: var(--naksha-warning); }
+.term-line.highlight { color: var(--naksha-gold-light); }
+.term-line.muted { color: var(--naksha-text-4); font-size: 12px; }
+.term-line.header {
+  color: var(--naksha-gold-light);
+  font-weight: 700;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  padding-bottom: 3px;
+  border-bottom: 1px solid var(--naksha-border-2);
+  background: linear-gradient(180deg, rgba(245, 234, 208, 0.04), transparent);
+  background-clip: padding-box;
+  letter-spacing: 0.3px;
+}
+.term-line.file-output {
+  color: var(--naksha-text);
+  font-size: 12px;
+  line-height: 1.55;
+  /* Phase 8 — logical: the gold gutter edge hugs the START side, so a
+     Persian file dump (dir=auto → rtl) keeps its ledger bar on the right
+     where its reading starts. Identical rendering in LTR. */
+  padding: 4px 0;
+  padding-inline-start: 10px;
+  margin: 2px 0 2px;
+  margin-inline-start: 4px;
+  border-inline-start: 2px solid var(--naksha-gold-dim);
+  white-space: pre;
+  overflow-x: auto;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--naksha-gold) 2.5%, transparent), transparent 60%);
+}
+.term-line code {
+  font-family: var(--naksha-font-mono);
+  font-size: 12px;
+  color: var(--naksha-gold-light);
+  background: color-mix(in srgb, var(--naksha-gold) 8%, transparent);
+  padding: 1px 5px;
+  border-radius: 3px;
+  border: 1px solid color-mix(in srgb, var(--naksha-gold) 15%, transparent);
+}
+
+/* Loading spinner — only animates when visible (no continuous animation) */
+.term-spinner {
+  display: inline-block;
+  font-family: var(--naksha-font-mono);
+  color: var(--naksha-gold);
+  animation: spinnerRotate 0.9s steps(8) infinite;
+}
+@keyframes spinnerRotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Custom thin scrollbars (warm gold) */
+.naksha-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
+.naksha-scroll::-webkit-scrollbar-track { background: transparent; }
+.naksha-scroll::-webkit-scrollbar-thumb {
+  background: var(--naksha-border-2);
+  border-radius: 3px;
+}
+.naksha-scroll::-webkit-scrollbar-thumb:hover { background: var(--naksha-border-3); }
+
+/* Skeleton placeholder bars (EmptyState.tsx SkeletonRows). One gentle
+ * opacity pulse, transient by design — only ever visible while a load
+ * is in flight. Honors reduced-motion by going fully static. */
+.naksha-skel {
+  background: color-mix(in srgb, var(--naksha-text-3) 22%, transparent);
+  animation: naksha-skel-pulse 1.6s ease-in-out infinite;
+}
+@keyframes naksha-skel-pulse {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .naksha-skel { animation: none; opacity: 0.7; }
+}
+.naksha-scroll { scrollbar-width: thin; scrollbar-color: var(--naksha-border-2) transparent; }
+
+/* Leaflet overrides — warm theme */
+.leaflet-container {
+  background: var(--naksha-bg-2) !important;
+  font-family: var(--naksha-font-mono) !important;
+}
+.leaflet-tile-pane {
+  filter: sepia(0.28) saturate(0.7) brightness(0.78) contrast(1.08) hue-rotate(-8deg);
+}
+.leaflet-control-attribution {
+  /* Task 95 — the chip rides the theme paper tone (was frozen near-black,
+   * a dark slab glued to light maps); the muted text-4 ink is the theme's
+   * own tier for ITS paper now. */
+  background: color-mix(in srgb, var(--naksha-bg) 85%, transparent) !important;
+  color: var(--naksha-text-3) !important; /* Task 95 — text-4 was the faint tier (1.8:1 on its own paper chip); attribution is legal text, text-3 reads in BOTH families */
+  font-size: 9px !important;
+  border-radius: 4px 0 0 0;
+  padding: 2px 8px;
+}
+.leaflet-control-attribution a {
+  color: var(--naksha-text-3) !important;
+  text-decoration: none;
+}
+.leaflet-control-scale-line {
+  /* Task 95 — !important is not decoration here: Leaflet's stock stylesheet
+   * was winning the cascade (computed white bg / #333 ink all rounds), so
+   * this themed rule existed only on paper. Same beat as the attribution. */
+  background: color-mix(in srgb, var(--naksha-bg) 85%, transparent) !important;
+  border: 1px solid var(--naksha-text-4) !important;
+  border-top: none !important;
+  color: var(--naksha-text-3) !important;
+  font-family: var(--naksha-font-mono) !important;
+  font-size: 9px !important;
+  padding: 1px 6px;
+}
+
+/* Focus mode entrance */
+@keyframes focusItemIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.focus-item {
+  animation: focusItemIn 0.25s ease forwards;
+}
+
+/* Subtle fade-in (used rarely, only on mount) */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Network color helpers (for canvas / badges) */
+.net-color-1 { color: var(--naksha-net-1); }
+.net-color-2 { color: var(--naksha-net-2); }
+.net-color-3 { color: var(--naksha-net-3); }
+
+/* Print */
+@media print {
+  body { background: white; color: black; }
+  .naksha-no-print { display: none !important; }
+}
+
+/* Reduced motion respect */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   Text selection + caret glow
+   — gold-tinted selection like a warm highlighter, glowing caret
+   Task 84 — alpha aligned with DetailStyles' enforcer copy (0.32):
+   the STYLE block mounts last and wins the cascade in dev, so the
+   effective highlight was 0.32 all along and this file now agrees.
+   ══════════════════════════════════════════════════════════════════ */
+::selection {
+  background: color-mix(in srgb, var(--naksha-gold) 32%, transparent);
+  color: var(--naksha-cream);
+}
+::-moz-selection {
+  background: color-mix(in srgb, var(--naksha-gold) 32%, transparent);
+  color: var(--naksha-cream);
+}
+
+/* Caret glow on the terminal input — a subtle gold pulse */
+#naksha-terminal-input {
+  caret-color: var(--naksha-gold);
+}
+#naksha-terminal-input:focus {
+  /* The input itself is transparent; add a faint gold underline glow */
+  box-shadow: inset 0 -1px 0 0 color-mix(in srgb, var(--naksha-gold) 30%, transparent);
+}
+#naksha-focus-input {
+  caret-color: var(--naksha-gold);
+}
+#naksha-focus-input:focus {
+  box-shadow: inset 0 -1px 0 0 color-mix(in srgb, var(--naksha-gold) 30%, transparent);
+}
+
+/* Custom scrollbar for the whole app — thin, warm, gold-tinted thumb */
+*::-webkit-scrollbar { width: 6px; height: 6px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb {
+  background: var(--naksha-border-2);
+  border-radius: 3px;
+}
+*::-webkit-scrollbar-thumb:hover { background: var(--naksha-border-3); }
+* { scrollbar-width: thin; scrollbar-color: var(--naksha-border-2) transparent; }
+
+
+/* ── Task 29 styling round ─────────────────────────────────────────────
+   NodeDetailsPanel link rows: ledger hover — a 2px gold left rule slides
+   in on hover (no layout shift, box-shadow based). Pure CSS, zero JS. */
+.naksha-link-row {
+  transition: border-color 0.12s ease, background 0.12s ease;
+}
+.naksha-link-row:hover {
+  border-color: var(--naksha-gold-dim);
+  background: rgba(52, 45, 34, 0.55);
+}
+html[data-perf="low"] .naksha-link-row {
+  transition: none;
+}
+
+
+/* ── Task 29 fix: Radix dialog centering ───────────────────────────────
+   The shadcn `fixed top-[50%] left-[50%] translate-…` utility chain was
+   not winning the cascade in this build (dialog computed position ended
+   up `relative`, dropping the command palette to the page bottom).
+   Re-assert the centering explicitly — position/translate are presentation
+   only, so !important here is safe and keeps every dialog centered. */
+[data-slot="dialog-content"] {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: none !important;
+  translate: -50% -50% !important;
+}
+/* sentinel-task29-1790784679 */
+
+/* ── Task 51 styling round: .reader-html typography ────────────────────
+   The reader panel's HTML bodies (wiki articles AND `cat -r` markdown)
+   previously inherited bare paragraph styling — headings/code/lists ran
+   together. This block gives the expert-shell dialect: mono hierarchy,
+   warm-gold accents, hairline rules. All static paint (no animation,
+   no backdrop-filter); the panel only pays it while open. */
+.reader-html h2,
+.reader-html h3,
+.reader-html h4,
+.reader-html h5,
+.reader-html h6 {
+  color: var(--naksha-cream);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  margin: 0.9em 0 0.35em;
+  line-height: 1.35;
+}
+.reader-html h2 { font-size: 15px; border-bottom: 1px solid var(--naksha-border); padding-bottom: 0.3em; }
+.reader-html h3 { font-size: 14px; }
+.reader-html h4 { font-size: 13px; color: var(--naksha-gold); }
+.reader-html h5, .reader-html h6 { font-size: 12px; color: var(--naksha-text-2); text-transform: uppercase; }
+.reader-html h2:first-child { margin-top: 0; }
+.reader-html p { margin: 0.45em 0; }
+.reader-html a { color: var(--naksha-gold); text-decoration: underline; text-underline-offset: 2px; }
+.reader-html a:hover { color: var(--naksha-gold-light); }
+/* Task 107 — external-link cue: markdown bodies render target="_blank"
+ * anchors whose text is user-authored and silent about leaving the tab.
+ * A static ↗ suffix is seen AND announced (CSS content is read by AT),
+ * matching the panel chrome's new-tab labels. Static paint, zero JS,
+ * zero layout cost on plain links. */
+.reader-html a[target="_blank"]::after {
+  content: ' ↗';
+  color: var(--naksha-gold-dim);
+  text-decoration: none;
+  display: inline-block;
+}
+.reader-html code {
+  font-family: var(--naksha-font-mono);
+  font-size: 12px;
+  background: color-mix(in srgb, var(--naksha-wash) 60%, transparent);
+  border: 1px solid var(--naksha-border);
+  border-radius: 3px;
+  padding: 0.05em 0.35em;
+  color: var(--naksha-gold-light);
+}
+.reader-html pre {
+  /* Task 95 — theme glass, not frozen near-black: the code ink rides
+   * var(--naksha-text) and washed on light papers. */
+  background: var(--naksha-glass-2);
+  border: 1px solid var(--naksha-border);
+  border-radius: 6px;
+  padding: 10px 12px;
+  overflow-x: auto;
+  margin: 0.6em 0;
+}
+.reader-html pre code { background: transparent; border: none; padding: 0; color: var(--naksha-text); font-size: 11.5px; line-height: 1.55; }
+.reader-html blockquote {
+  border-left: 2px solid var(--naksha-gold-dim);
+  margin: 0.6em 0;
+  padding: 0.15em 0 0.15em 0.8em;
+  color: var(--naksha-text-2);
+  font-style: italic;
+}
+.reader-html ul, .reader-html ol { margin: 0.45em 0; padding-left: 1.4em; }
+.reader-html ul { list-style: none; }
+.reader-html ul > li { position: relative; }
+.reader-html ul > li::before { content: '·'; position: absolute; left: -0.9em; color: var(--naksha-gold); font-weight: 700; }
+.reader-html ol { list-style: decimal; }
+.reader-html li { margin: 0.2em 0; }
+.reader-html li::marker { color: var(--naksha-gold); }
+.reader-html hr { border: none; border-top: 1px dashed var(--naksha-border-2); margin: 1em 0; }
+.reader-html img { max-width: 100%; border-radius: 6px; border: 1px solid var(--naksha-border); }
+.reader-html strong { color: var(--naksha-cream); font-weight: 600; }
+
+/* ── Phase 8: reader direction (RTL notes) ────────────────────────────
+   The article element carries the per-note dir (detected from the RAW
+   text at open time); these rules make the MARKDOWN INK obey it while
+   staying honest about what must NOT flip:
+   · prose blocks resolve their OWN base direction per paragraph
+     (unicode-bidi: plaintext — a Persian note with an English URL or a
+     code span inside stays readable line by line);
+   · code fences stay physical LTR monospace (code is code);
+   · the physical left-side ink (blockquote bar, ul bullet, list
+     padding) switches to logical properties so it hugs the start edge
+     in both directions. Static paint, no JS. */
+.reader-html[dir='rtl'] { direction: rtl; }
+.reader-html[dir='rtl'] p,
+.reader-html[dir='rtl'] li,
+.reader-html[dir='rtl'] h3,
+.reader-html[dir='rtl'] h4,
+.reader-html[dir='rtl'] h5,
+.reader-html[dir='rtl'] h6,
+.reader-html[dir='auto'] p,
+.reader-html[dir='auto'] li {
+  unicode-bidi: plaintext;
+}
+.reader-html pre,
+.reader-html pre code,
+.reader-html code[dir] { direction: ltr; text-align: left; unicode-bidi: isolate; }
+.reader-html blockquote {
+  border-inline-start: 2px solid var(--naksha-gold-dim);
+  border-left: none;
+  padding-inline-start: 0.8em;
+  padding-left: 0;
+}
+.reader-html ul, .reader-html ol { padding-inline-start: 1.4em; padding-left: 0; }
+.reader-html ul > li::before {
+  inset-inline-start: -0.9em;
+  left: auto;
+}
+
+/* ── Phase 8: chrome RTL hooks (targeted, not wholesale) ──────────────
+   The root <html dir> flips flex rows automatically (panels mirror);
+   these are the spots that NEED explicit help. Kept minimal so LTR
+   rendering is byte-identical to pre-Phase-8. */
+/* Terminal output rows marked dir="auto" resolve their own base
+   direction per line; isolate keeps chips/badges glued to their row's
+   bidi context. */
+.term-line[dir='auto'] { unicode-bidi: plaintext; }
+/* Notes prose (details panel + focus desk) and any Persian plain text
+   in chrome: first-strong per block, no forced mirror. */
+.naksha-note-auto { unicode-bidi: plaintext; }
+/* Logical-property helpers for the rtl chrome: the status-bar hairline
+   separator and any remaining physical inset in naksha CSS hooks. */
+html[data-rtl='true'] footer[aria-label='Status bar'] > div > * + *::before {
+  left: auto;
+  right: -9px;
+}
+
+/* task 115 touch */
+
+/* ══════════════════════════════════════════════════════════════════
+   ReactBits DotGrid — mounted surface CSS (Task T1, v138)
+   Copied from DavidHDev/react-bits DotGrid.css (MIT) verbatim; the
+   fixed-viewport mount positioning lives inline on the <section> in
+   DotGridBackground.tsx (the upstream class set is preserved so the
+   component stays diffable against its source).
+   ══════════════════════════════════════════════════════════════════ */
+.dot-grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+.dot-grid__wrap {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.dot-grid__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
